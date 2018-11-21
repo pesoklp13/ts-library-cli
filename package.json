@@ -15,8 +15,8 @@
   },
   "scripts": {
     "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.{ts,tsx}' 'test/**/*.{ts,tsx}'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src"
+    "test": "jest",
+    "build": "rimraf dist && tsc --module commonjs && rollup -c rollup.config.ts"
   },
   "keywords": [
     "typescript",
@@ -41,7 +41,7 @@
   },
   "jest": {
     "roots": [
-      "<rootDir>/test"
+      "<rootDir>/src"
     ],
     "transform": {
       ".(ts|tsx)": "ts-jest"

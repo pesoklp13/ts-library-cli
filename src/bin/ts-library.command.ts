@@ -1,10 +1,11 @@
 import chalk from 'chalk';
 import {Command} from 'commander';
 
-const COMMAND_NAME: string = 'create-ts-library';
-const LIBRARY_DIRECTORY: string = '<library-directory>';
+export const COMMAND_NAME: string = 'create-ts-library';
+export const LIBRARY_DIRECTORY: string = '<library-directory>';
+const INNER_EXCEPTION: string = 'Disabled process.exit';
 
-interface IPackageJson {
+export interface IPackageJson {
     version: string;
 }
 
@@ -18,17 +19,31 @@ export class TsLibraryCommand {
     }
 
     private static printHelp(): void {
-        console.log('help'); // tslint:disable-line no-console
+        TsLibraryCommand.log(`Specify ${chalk.blue(LIBRARY_DIRECTORY)} to create your own typescript library`);
+        throw new Error(INNER_EXCEPTION);
+    }
+
+    private static log(input: string): void {
+        console.log(input); // tslint:disable-line no-console
     }
 
     public execute(): number {
-        const program: Command = this.createProgram();
+        let program: Command;
+        try {
+           program = this.createProgram();
+        } catch (error) {
+            if (error.message && error.message === INNER_EXCEPTION) {
+                return 0;
+            }
+
+            throw error;
+        }
 
         if (!this.libraryName) {
             console.error('Please specify the name of library you want to create:');
-            console.log(`${chalk.cyan(program.name())} ${chalk.blue(LIBRARY_DIRECTORY)}`); // tslint:disable-line no-console
+            TsLibraryCommand.log(`${chalk.cyan(program.name())} ${chalk.blue(LIBRARY_DIRECTORY)}`);
             const helpStatement: string = `${program.name()} --help`;
-            console.log(`Run ${chalk.cyan(helpStatement)} to see all options.`); // tslint:disable-line no-console
+            TsLibraryCommand.log(`Run ${chalk.cyan(helpStatement)} to see all options.`);
 
             return 1;
         }
