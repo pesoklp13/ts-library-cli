@@ -5,7 +5,7 @@ import sourceMaps from 'rollup-plugin-sourcemaps';
 import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
-export default {
+export default { // tslint:disable-line no-default-export
     input: 'src/index.ts',
     output: [
         { file: pkg.main, name: 'TSLibraryCLI', format: 'umd', sourcemap: true },
