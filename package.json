@@ -14,7 +14,7 @@
     "create-ts-react-component-library": ""
   },
   "scripts": {
-    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.(ts|tsx)' 'test/**/*.(ts|tsx)'",
+    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.{ts,tsx}' 'test/**/*.{ts,tsx}'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src"
   },
@@ -29,9 +29,53 @@
     "type": "git",
     "url": ""
   },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "printWidth": 140,
+    "semi": false,
+    "singleQuote": true
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/test"
+    ],
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
+  },
   "author": "Peter Sokolík",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.2",
     "rimraf": "^2.6.2",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
@@ -39,6 +83,11 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.18.0",
+    "ts-jest": "^23.10.4",
+    "tslint": "^5.11.0",
+    "tslint-clean-code": "^0.2.9",
+    "tslint-config-prettier": "^1.16.0",
+    "tslint-sonarts": "^1.8.0",
     "typedoc": "^0.13.0",
     "typescript": "^3.1.6"
   },

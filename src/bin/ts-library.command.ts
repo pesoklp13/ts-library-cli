@@ -1,25 +1,35 @@
+import chalk from 'chalk';
 import {Command} from 'commander';
-import chalk from "chalk";
 
-const COMMAND_NAME = 'create-ts-library';
+const COMMAND_NAME: string = 'create-ts-library';
+const LIBRARY_DIRECTORY: string = '<library-directory>';
+
+interface IPackageJson {
+    version: string;
+}
 
 export class TsLibraryCommand {
 
     private libraryName: string = '';
+    private pkg: IPackageJson;
 
-    constructor(private pkg: any){
+    constructor(pkg: IPackageJson) {
+        this.pkg = pkg;
+    }
 
+    private static printHelp(): void {
+        console.log('help'); // tslint:disable-line no-console
     }
 
     public execute(): number {
-        const program = this.createProgram();
+        const program: Command = this.createProgram();
 
-        console.log(this.libraryName);
-
-        if(!this.libraryName) {
+        if (!this.libraryName) {
             console.error('Please specify the name of library you want to create:');
-            console.log(`${chalk.cyan(program.name())} ${chalk.blue('<library-directory>')}`);
-            console.log(`Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`);
+            console.log(`${chalk.cyan(program.name())} ${chalk.blue(LIBRARY_DIRECTORY)}`); // tslint:disable-line no-console
+            const helpStatement: string = `${program.name()} --help`;
+            console.log(`Run ${chalk.cyan(helpStatement)} to see all options.`); // tslint:disable-line no-console
+
             return 1;
         }
 
@@ -29,62 +39,14 @@ export class TsLibraryCommand {
     private createProgram(): Command {
         return new Command(COMMAND_NAME)
             .version(this.pkg.version)
-            .arguments('<library-directory>')
-            .action(value => {
+            .arguments(LIBRARY_DIRECTORY)
+            .action((value: string) => {
                 this.libraryName = value;
             })
-            .usage(`${chalk.green('<library-directory>')} [options]`)
+            .usage(`${chalk.green(LIBRARY_DIRECTORY)} [options]`)
             .option('--test', 'test option')
             .allowUnknownOption()
             .on('--help', TsLibraryCommand.printHelp)
             .parse(process.argv);
     }
-
-    private static printHelp(){
-        console.log('help');
-    }
 }
-
-/*
-export class TsLibraryCommand {
-
-    private libraryName: string = '';
-
-    public static main(): number {
-        const command = new TsLibraryCommand();
-
-        const program = new Command(COMMAND_NAME)
-            .version(pkg.version)
-            .arguments('<library-directory>')
-            .action(command.setLibraryName)
-            .usage(`${chalk.green('<library-directory>')} [options]`)
-            .option('--test', 'test option')
-            .allowUnknownOption()
-            .on('--help', TsLibraryCommand.printHelp)
-            .parse(process.argv);
-
-        if(!command.getLibraryName()) {
-            console.error('Please specify the name of library you want to create:');
-            console.log(`${chalk.cyan(program.name())} ${chalk.blue('<library-directory>')}`);
-            console.log(`Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`);
-            return 1;
-        }
-
-        return 0;
-    }
-
-    private static printHelp(){
-        console.log('help');
-    }
-
-    public setLibraryName(libraryName: string) {
-        this.libraryName = libraryName;
-    }
-
-    public getLibraryName(): string {
-        return this.libraryName;
-    }
-
-}
-
-TsLibraryCommand.main();*/

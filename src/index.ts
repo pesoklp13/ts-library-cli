@@ -1,3 +1,3 @@
-export default class SuperMan {
-
+export function sayHelloWorld(): string {
+    return 'hello world';
 }

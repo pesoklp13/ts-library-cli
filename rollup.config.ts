@@ -1,15 +1,14 @@
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import sourceMaps from 'rollup-plugin-sourcemaps'
-import typescript from 'rollup-plugin-typescript2'
-import json from 'rollup-plugin-json'
-
-const pkg = require('./package.json');
+import commonjs from 'rollup-plugin-commonjs';
+import json from 'rollup-plugin-json';
+import resolve from 'rollup-plugin-node-resolve';
+import sourceMaps from 'rollup-plugin-sourcemaps';
+import typescript from 'rollup-plugin-typescript2';
+import pkg from './package.json';
 
 export default {
     input: 'src/index.ts',
     output: [
-        { file: pkg.main, name: "TSLibraryCLI", format: 'umd', sourcemap: true },
+        { file: pkg.main, name: 'TSLibraryCLI', format: 'umd', sourcemap: true },
         { file: pkg.module, format: 'es', sourcemap: true }
     ],
     external: [],
@@ -31,4 +30,4 @@ export default {
         // Resolve source maps to the original source
         sourceMaps()
     ]
-}
+};
