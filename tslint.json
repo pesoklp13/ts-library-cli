@@ -81,7 +81,7 @@
     "max-file-line-count": true,
     "max-line-length": [true, 140],
     "member-access": true,
-    "member-ordering": [true, { "order": "fields-first" }],
+    "member-ordering": [true, { "order": ["static-field", "instance-field", "constructor", "static-method", "instance-method" ] }],
     "new-parens": true,
     "no-commented-out-code": true,
     "no-complex-conditionals": true,
